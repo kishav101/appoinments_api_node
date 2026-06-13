@@ -38,3 +38,13 @@ export const updateUser = async (id: string, user: CreateUserDTO) => {
     const result = await pool.query("UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4 RETURNING *", [user.name, user.email, user.password, id]);
     return result.rows[0];
 }
+
+export const saveRefreshToken = async (userId: string , refreshToken: string) => {
+    const result = await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2 RETURNING *", [refreshToken, userId]);
+    return result.rows[0];
+}
+
+export const clearRefreshToken = async(userId: string)=> {
+    const result = await pool.query("UPDATE users SET refresh_token = NULL WHERE id = $1 RETURNING *", [userId]);
+    return result.rows[0];
+}
